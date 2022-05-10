@@ -1,0 +1,37 @@
+<div>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Author</th>
+          {{!-- <th scope="col">Assigne</th> --}}
+          <th scope="col">Due Date</th>
+        </tr>
+      </thead>
+      <tbody id="list-issues">
+        {{#each issues}}
+          <tr>
+            <th scope="row">#</th>
+            <td>{{this.title}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.author.name}}</td>
+            {{!-- <td>{{this.assignee.name}}</td> --}}
+            <td>{{this.due_date}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  socket.on('issue-event', function(data) { console.log('data: ', data);
+  var html = '<tr><th scope="row">#</th><td>' + data.issue.title + '</td><td>' +
+  data.issue.description + '</td><td>' + data.issue.author.name + '</td><td>' + data.issue.due_date + '</td></tr>'; 
+
+  console.log(html);
+  $('#list-issues').prepend(html);
+  });
+</script>
