@@ -9,10 +9,11 @@ module.exports = function (app) {
   });
 
   router.get("/issues", (req, res, next) => {
-    const { page = 1, per_page = 20 } = req.query || {};
+    const { offset, limit = 10 } = req.query || {};
+    const page = ((offset || 0) / limit) + 1;
     var config = {
       method: "get",
-      url: `https://gitlab.com/api/v4/projects/${process.env.GITLAB_PROJECT_ID}/issues?page=${page}&per_page=${per_page}`,
+      url: `https://gitlab.com/api/v4/projects/${process.env.GITLAB_PROJECT_ID}/issues?page=${page}&per_page=${limit}`,
       headers: {
         Authorization: `Bearer ${process.env.GITLAB_PERSONAL_ACCESS_TOKEN}`,
       },
@@ -30,7 +31,7 @@ module.exports = function (app) {
         // const totalPage = headers["x-total-pages"];
         return res.status(200).json({
           error: false,
-          data: { issues: response.data, totalPages, totalIssues },
+          data: { rows: response.data, totalPages, total: totalIssues },
         });
       })
       .catch(function (error) {
