@@ -1,3 +1,7 @@
 # A03 Production
 
 Repo for A03.
+
+RUN npm install
+Add value of GITLAB_PERSONAL_ACCESS_TOKEN, GITLAB_PROJECT_ID, GITLAB_SECRET_TOKEN, PORT
+RUN npm start
